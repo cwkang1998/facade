@@ -1,0 +1,25 @@
+{
+  "name": "circuit",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:pubkeygen": "cd ./scripts/pubkeygen && ./build_pubkeygen.sh",
+    "build:ecdsa_verify": "cd ./scripts/ecdsa_verify && ./build_verify.sh",
+    "test": "NODE_OPTIONS=--max_old_space_size=56000 mocha -r ts-node/register 'test/**/*.ts'"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@personaelabs/spartan-ecdsa": "^1.0.2",
+    "circomlib": "^2.0.5",
+    "circomlibjs": "^0.1.7",
+    "ethers": "^6.0.8",
+    "snarkjs": "^0.6.7"
+  },
+  "devDependencies": {
+    "@noble/secp256k1": "1.7.1",
+    "circom_tester": "0.0.19",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  }
+}

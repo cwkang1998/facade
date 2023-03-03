@@ -10,10 +10,10 @@
     "test": "truffle test"
   },
   "dependencies": {
-    "@truffle/hdwallet-provider": "^2.1.1"
+    "@truffle/hdwallet-provider": "^2.1.7"
   },
   "devDependencies": {
     "dotenv": "^16.0.3",
-    "ganache": "^7.5.0"
+    "ganache": "^7.7.6"
   }
 }
