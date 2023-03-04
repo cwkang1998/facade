@@ -1,11 +1,12 @@
-const { describe, before } = require('mocha');
 const { expect } = require('chai');
 const { ethers } = require('ethers');
+const {Point} = require('@noble/secp256k1');
 
 const { poseidonContract } = require('circomlibjs');
 const { buildPoseidon } = require('circomlibjs');
 const { groth16 } = require('snarkjs');
 const ZkWallet = artifacts.require('ZkMultisigWallet');
+
 
 function buildSolidityProof(snarkProof, publicSignals) {
   return {
@@ -22,29 +23,67 @@ function buildSolidityProof(snarkProof, publicSignals) {
 function bigintToArray(n, k, x) {
   let mod = 1n;
   for (var idx = 0; idx < n; idx++) {
-      mod = mod * 2n;
+    mod = mod * 2n;
   }
 
   let ret = [];
   var x_temp = x;
   for (var idx = 0; idx < k; idx++) {
-      ret.push(x_temp % mod);
-      x_temp = x_temp / mod;
+    ret.push(x_temp % mod);
+    x_temp = x_temp / mod;
+  }
+  return ret;
+}
+
+/**
+ *
+ * @param {bigint} x
+ * @returns {[bigint, bigint, bigint, bigint]}
+ */
+function bigintToTuple(x) {
+  let mod = 2n ** 64n;
+  let ret = [0n, 0n, 0n, 0n];
+
+  var x_temp = x;
+  for (var idx = 0; idx < ret.length; idx++) {
+    ret[idx] = x_temp % mod;
+    x_temp = x_temp / mod;
+  }
+  return ret;
+}
+
+/**
+ *
+ * @param {Uint8Array} x
+ * @returns
+ */
+function Uint8ArrayToBigint(x) {
+  let ret = 0n;
+  for (let idx = 0; idx < x.length; idx++) {
+    ret = ret * 256n;
+    ret = ret + BigInt(x[idx]);
   }
   return ret;
 }
 
 contract('ZkMultisigWallet', () => {
   let poseidonJs;
-  let walletInstance;
 
   before(async () => {
-    walletInstance = await ZkWallet.deployed();
     poseidonJs = await buildPoseidon();
   });
 
   it('should validate', async () => {
+    const [owner, otherAccount] = await ethers.getSigners();
+
+    const zkWalletFactory = await ethers.getContractFactory('ZkMultisigWallet');
+
     const wallet = new ethers.Wallet.createRandom();
+    const hashPubKey = ethers.BigNumber.from(
+      poseidonJs.F.toObject(poseidonJs([wallet.publicKey])),
+    );
+
+    const zkWalletInstance = await zkWalletFactory.deploy(1, [hashPubKey]);
 
     // Serialize a message hash
     const serializedTx = await utils.serializeTransaction({
@@ -62,23 +101,28 @@ contract('ZkMultisigWallet', () => {
     console.log('signature s: ', signedTx.s);
 
     // Now we extract the public key from the signature
-    const recoveredPubKey = recoverPublicKey(keccak256(serializedTx), signedTx);
-
-    const transactionCallData = ethers.BigNumber.from(
-      poseidonJs.F.toObject(poseidonJs([secret, ...solutions])),
-    );
-
-    const hashPubKey = ethers.BigNumber.from(
-      poseidonJs.F.toObject(poseidonJs([wallet.publicKey])),
+    const recoveredPubKey = utils.recoverPublicKey(
+      keccak256(serializedTx),
+      signedTx,
     );
 
     // the guess is sent to the owner which will be responsible in generating the proof
+    const pubKeyPoints = Point.fromHex(recoveredPubKey.slice(2));
+    const pubKeyXBigInt = Uint8ArrayToBigint(bigintToTuple(pubKeyPoints.x));
+    const pubKeyYBigInt = Uint8ArrayToBigint(bigintToTuple(pubKeyPoints.y));
+    const signatureRBigInt = Uint8ArrayToBigint(
+      Uint8Array.from(Buffer.from(signedTx.r, 'hex')),
+    );
+    const signatureSBigInt = Uint8ArrayToBigint(
+      Uint8Array.from(Buffer.from(signedTx.s, 'hex')),
+    );
+
     const input = {
-      transactionCallData: guessHash,
+      transactionCallData: bigintToArray(64, 4, BigInt(serializedTx)),
       hashPubKey: hashPubKey,
-      pubKey: bigintToArray(64, 4, )
-      signatureR: bigintToArray()
-      signatureS: bigintToArray()
+      pubKey: [bigintToArray(pubKeyXBigInt), bigintToArray(pubKeyYBigInt)],
+      signatureR: bigintToArray(64, 4, signatureRBigInt),
+      signatureS: bigintToArray(64, 4, signatureSBigInt),
     };
 
     const { proof, publicSignals } = await groth16.fullProve(
@@ -88,7 +132,7 @@ contract('ZkMultisigWallet', () => {
     );
 
     formattedInput = buildSolidityProof(proof, publicSignals);
-    const result = await walletInstance.verifyProof(
+    const result = await zkWalletInstance.verifyProof(
       formattedInput.a,
       formattedInput.b,
       formattedInput.c,
