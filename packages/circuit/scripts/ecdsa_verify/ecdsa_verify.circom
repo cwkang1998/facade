@@ -30,11 +30,6 @@ template VerifySignature(){
         }
     }
 
-
-
-    // signal hashedR;
-    // signal hashedS;
-
     component poseidonhash = Poseidon(8);
     for(var n = 0; n<4; n++){
         poseidonhash.inputs[n] <== pubKey[0][n];
