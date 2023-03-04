@@ -12,13 +12,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adraffy/ens-normalize@npm:1.8.9":
-  version: 1.8.9
-  resolution: "@adraffy/ens-normalize@npm:1.8.9"
-  checksum: 17791dce03a4320a88c377136c48d0c16ac3e5b07aad321d028c8342fcf821b95c0082cd269cddd488472d1273e8157ae101f2e4e7f9e6be42667ed7ab9614d9
-  languageName: node
-  linkType: hard
-
 "@ampproject/remapping@npm:^2.2.0":
   version: 2.2.0
   resolution: "@ampproject/remapping@npm:2.2.0"
@@ -6183,13 +6176,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aes-js@npm:4.0.0-beta.3":
-  version: 4.0.0-beta.3
-  resolution: "aes-js@npm:4.0.0-beta.3"
-  checksum: 2336feee1e4a7722f5b6ede192b0a22881fd6f9310b36ec10e62b6f015f9fddf812c1d8a61b9743ab710811fd0b0d7aad844178f11e7cb1439bbc14246c6c93e
-  languageName: node
-  linkType: hard
-
 "agent-base@npm:6, agent-base@npm:^6.0.2":
   version: 6.0.2
   resolution: "agent-base@npm:6.0.2"
@@ -8298,7 +8284,7 @@ __metadata:
     circom_tester: 0.0.9
     circomlib: ^2.0.5
     circomlibjs: ^0.1.7
-    ethers: ^6.0.8
+    ethers: ^5.7.2
     mocha: ^9.1.3
     snarkjs: ^0.6.7
   languageName: unknown
@@ -11516,7 +11502,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^5.5.1":
+"ethers@npm:^5.5.1, ethers@npm:^5.7.2":
   version: 5.7.2
   resolution: "ethers@npm:5.7.2"
   dependencies:
@@ -11551,20 +11537,6 @@ __metadata:
     "@ethersproject/web": 5.7.1
     "@ethersproject/wordlists": 5.7.0
   checksum: b7c08cf3e257185a7946117dbbf764433b7ba0e77c27298dec6088b3bc871aff711462b0621930c56880ff0a7ceb8b1d3a361ffa259f93377b48e34107f62553
-  languageName: node
-  linkType: hard
-
-"ethers@npm:^6.0.8":
-  version: 6.0.8
-  resolution: "ethers@npm:6.0.8"
-  dependencies:
-    "@adraffy/ens-normalize": 1.8.9
-    "@noble/hashes": 1.1.2
-    "@noble/secp256k1": 1.7.1
-    aes-js: 4.0.0-beta.3
-    tslib: 2.4.0
-    ws: 8.5.0
-  checksum: acd7eae0f73fce37585c723729a3e0e2fdab24e045ac88eeee9b28a9e465764f80462630a6251f753d74857a0809b2cdd47ec0585f7153ee2edac9a09964853f
   languageName: node
   linkType: hard
 
@@ -22847,7 +22819,7 @@ __metadata:
     circomlib: ^2.0.5
     circomlibjs: ^0.1.7
     dotenv: ^16.0.3
-    ethers: ^6.0.8
+    ethers: ^5.7.2
     ganache: ^7.7.6
     mocha: ^9.1.3
     snarkjs: ^0.6.7
@@ -22870,13 +22842,6 @@ __metadata:
     minimist: ^1.2.6
     strip-bom: ^3.0.0
   checksum: a6162eaa1aed680537f93621b82399c7856afd10ec299867b13a0675e981acac4e0ec00896860480efc59fc10fd0b16fdc928c0b885865b52be62cadac692447
-  languageName: node
-  linkType: hard
-
-"tslib@npm:2.4.0":
-  version: 2.4.0
-  resolution: "tslib@npm:2.4.0"
-  checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
   languageName: node
   linkType: hard
 
@@ -24654,21 +24619,6 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 3a990b32ed08c72070d5e8913e14dfcd831919205be52a3ff0b4cdd998c8d554f167c9df3841605cde8b11d607768cacab3e823c58c96a5c08c987e093eb767a
-  languageName: node
-  linkType: hard
-
-"ws@npm:8.5.0":
-  version: 8.5.0
-  resolution: "ws@npm:8.5.0"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ^5.0.2
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 76f2f90e40344bf18fd544194e7067812fb1372b2a37865678d8f12afe4b478ff2ebc0c7c0aff82cd5e6b66fc43d889eec0f1865c2365d8f7a66d92da7744a77
   languageName: node
   linkType: hard
 
