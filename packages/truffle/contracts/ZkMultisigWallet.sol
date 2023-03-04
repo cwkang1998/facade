@@ -31,13 +31,9 @@ contract ZkMultisigWallet is Verifier {
 
     /**
      * The input shape and schema is as follows:
-     * calldata
-     * 1. destination
-     * 2. value
-     * 3. gasLimit
-     * 4. data
-     * hashPubKey
-     * 1. pubKey
+     * 0-3 msgHash divided into 4 parts
+     * 4 hashPubKey
+     * 5 Arbritrary output 1
      */
     uint lastAdd = 0; 
     for (uint i = 0; i < threshold; i++) {
@@ -52,7 +48,8 @@ contract ZkMultisigWallet is Verifier {
 
     bool success = false;
     address destination = address(uint160(uint(keccak256(abi.encodePacked(input[0][0])))));
-    
+    nonce = nonce + 1;
+
     (success,) = destination.call{value: input[0][1], gas: input[0][2]}(abi.encodePacked(input[0][3]));
     require(success);
   }
