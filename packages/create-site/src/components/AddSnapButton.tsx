@@ -6,8 +6,10 @@ import { shouldDisplayReconnectButton } from '../utils';
 
 export const InstallFlaskButton = () => (
   <Link href="https://metamask.io/flask/" target="_blank">
-    <FlaskFox />
-    <Button>Install MetaMask Flask</Button>
+    <Box marginRight="1">
+      <FlaskFox />
+    </Box>
+    <Button>Install Flask</Button>
   </Link>
 );
 
