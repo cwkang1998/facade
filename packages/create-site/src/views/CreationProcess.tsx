@@ -23,6 +23,7 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { CardViewState, useCardViewContext } from '../hooks/CardViewContext';
+import { createWallet } from '../utils/api';
 
 enum CreationStep {
   NETWORK_SELECT,
@@ -91,6 +92,7 @@ const OwnerForm = ({
             const commaSeparatedText = e.target.value;
             const hashesArray = commaSeparatedText
               .split(',')
+              .map((h) => h.trim())
               .filter((h) => h && h.length > 0);
             onFieldChange('ownerHashes')(hashesArray);
           }}
@@ -142,7 +144,7 @@ const ReviewForm = ({ fieldState }: { fieldState: WalletCreationDetail }) => {
 };
 
 export const CreationProcess = () => {
-  const {setView} = useCardViewContext();
+  const { setView } = useCardViewContext();
   const [currentStep, setCurrentStep] = useState<CreationStep>(
     CreationStep.NETWORK_SELECT,
   );
@@ -177,7 +179,7 @@ export const CreationProcess = () => {
     };
   };
 
-  const handleNextButtonClick = () => {
+  const handleNextButtonClick = async () => {
     if (currentStep === CreationStep.NETWORK_SELECT) {
       if (walletDetail?.name && walletDetail?.network) {
         setCurrentStep(CreationStep.OWNER_DETAILS);
@@ -195,10 +197,15 @@ export const CreationProcess = () => {
       }
     } else if (currentStep === CreationStep.FINAL_REVIEW) {
       setIsCreationLoading(true);
-      // Should call creation here;
+      try {
+        const creationResponse = await createWallet(walletDetail);
+        setView(CardViewState.CREATE_SUCCESS, {
+          walletAddress: creationResponse.transactionHash,
+        });
+      } catch (err: any) {
+        console.error(err);
+      }
       setIsCreationLoading(false);
-      // Arbritrary contract here
-      setView(CardViewState.CREATE_SUCCESS, {walletAddress: "0x0DA0C3e52C977Ed3cBc641fF02DD271c3ED55ade"});
     }
   };
 
