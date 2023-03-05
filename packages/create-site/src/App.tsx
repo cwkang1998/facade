@@ -22,6 +22,7 @@ import { publicProvider } from 'wagmi/providers/public';
 import { Base } from './Base';
 import { CardViewProvider } from './hooks/CardViewContext';
 import theme from './theme';
+import { MetaMaskProvider } from './hooks';
 
 const { chains, provider } = configureChains(
   [
@@ -59,9 +60,11 @@ const InnerApp = () => {
         chains={chains}
         theme={colorMode === 'light' ? lightTheme() : darkTheme()}
       >
-        <CardViewProvider>
-          <Base />
-        </CardViewProvider>
+        <MetaMaskProvider>
+          <CardViewProvider>
+            <Base />
+          </CardViewProvider>
+        </MetaMaskProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );

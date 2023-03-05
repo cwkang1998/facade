@@ -1,14 +1,7 @@
 import {
-  Card,
-  CardBody,
-  CardHeader,
   Container,
   Flex,
-  Progress,
-  Text,
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { AddSnapButton } from './components/AddSnapButton';
 import { Navbar } from './components/Navbar';
 import { useCardViewContext } from './hooks/CardViewContext';
 import { CreationProcess } from './views/CreationProcess';
@@ -34,12 +27,8 @@ export const Base = () => {
   return (
     <Flex height="100vh" direction="column">
       <Navbar />
-      <Flex direction="column" marginTop="auto" marginBottom="auto">
-        <Container>
-          <Card>
-            <CurrentViewComponent/>
-          </Card>
-        </Container>
+      <Flex direction="column" margin="auto">
+          <CurrentViewComponent />
       </Flex>
     </Flex>
   );

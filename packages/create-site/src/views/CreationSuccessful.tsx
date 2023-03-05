@@ -1,9 +1,9 @@
-import { CardBody, CardHeader, Progress, Text } from '@chakra-ui/react';
+import { Card, CardBody, CardHeader, Progress, Text } from '@chakra-ui/react';
 import { AddSnapButton } from '../components/AddSnapButton';
 
 export const CreationSuccessful = () => {
   return (
-    <>
+    <Card>
       <CardHeader>
         <Text>Create your first Zk Multisig Wallet</Text>
         <Progress value={80} />
@@ -11,6 +11,6 @@ export const CreationSuccessful = () => {
       <CardBody>
         <AddSnapButton onConnectClick={() => {}} state={{ isFlask: true }} />
       </CardBody>
-    </>
+    </Card>
   );
 };

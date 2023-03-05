@@ -9,14 +9,36 @@ import {
   Text,
   Flex,
   Button,
+  Card,
 } from '@chakra-ui/react';
+import { useContext } from 'react';
 import { AddSnapButton } from '../components/AddSnapButton';
+import { MetamaskActions, MetaMaskContext } from '../hooks';
 import { CardViewState, useCardViewContext } from '../hooks/CardViewContext';
+import { connectSnap, getSnap } from '../utils';
 
 export const Initial = () => {
   const [currentView, setCurrentView] = useCardViewContext();
+  const [state, dispatch] = useContext(MetaMaskContext);
+
+  const handleConnectClick = async () => {
+    try {
+      await connectSnap();
+      const installedSnap = await getSnap();
+
+      dispatch({
+        type: MetamaskActions.SetInstalled,
+        payload: installedSnap,
+      });
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+  };
+
+
   return (
-    <>
+    <Card>
       <CardBody>
         <VStack padding="2">
           <Flex justifyContent="space-between" width="100%">
@@ -41,13 +63,13 @@ export const Initial = () => {
             </Box>
             <Box padding="3" marginTop="auto" marginBottom="auto">
               <AddSnapButton
-                onConnectClick={() => {}}
-                state={{ isFlask: true }}
+                onConnectClick={handleConnectClick}
+                state={state}
               />
             </Box>
           </Flex>
         </VStack>
       </CardBody>
-    </>
+    </Card>
   );
 };
