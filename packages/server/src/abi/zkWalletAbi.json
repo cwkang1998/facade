@@ -107,9 +107,9 @@
           "type": "address"
         },
         {
-          "internalType": "bytes[]",
+          "internalType": "bytes",
           "name": "functionInputData",
-          "type": "bytes[]"
+          "type": "bytes"
         }
       ],
       "name": "execute",
