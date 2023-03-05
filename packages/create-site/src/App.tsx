@@ -1,26 +1,74 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ChakraProvider, useColorMode } from '@chakra-ui/react';
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+  lightTheme,
+  darkTheme,
+} from '@rainbow-me/rainbowkit';
+import { configureChains, createClient, WagmiConfig } from 'wagmi';
+import {
+  goerli,
+  zkSyncTestnet,
+  metisGoerli,
+  polygonZkEvmTestnet,
+  mainnet,
+  polygon,
+  optimism,
+  arbitrum,
+} from 'wagmi/chains';
+import { infuraProvider } from 'wagmi/providers/infura';
+import { publicProvider } from 'wagmi/providers/public';
+import { Nav } from './components/Navbar';
 
-function App() {
+const { chains, provider } = configureChains(
+  [
+    goerli,
+    zkSyncTestnet,
+    metisGoerli,
+    polygonZkEvmTestnet,
+    mainnet,
+    polygon,
+    optimism,
+    arbitrum,
+  ],
+  [
+    publicProvider(),
+    infuraProvider({ apiKey: process.env.REACT_APP_INFURA || '' }),
+  ],
+);
+
+const { connectors } = getDefaultWallets({
+  appName: 'Facade',
+  chains,
+});
+
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors,
+  provider,
+});
+
+const InnerApp = () => {
+  const { colorMode } = useColorMode();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider
+        chains={chains}
+        theme={colorMode === 'light' ? lightTheme() : darkTheme()}
+      >
+        <Nav />
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
-}
+};
+
+const App = () => {
+  return (
+    <ChakraProvider>
+      <InnerApp />
+    </ChakraProvider>
+  );
+};
 
 export default App;
