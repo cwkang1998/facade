@@ -1,13 +1,13 @@
 {
   "version": "0.1.0",
-  "description": "An example Snap written in TypeScript.",
-  "proposedName": "TypeScript Example Snap",
+  "description": "A MetaMask Test Snap that uses the cronjob endowment",
+  "proposedName": "MetaMask Cronjob Test Snap",
   "repository": {
     "type": "git",
     "url": "https://github.com/MetaMask/template-snap-monorepo.git"
   },
   "source": {
-    "shasum": "/CfdwLba02Zi41l1AFmJCu2qE6KFu3FduF1FlmU/jcM=",
+    "shasum": "D3pGR0zqtxSfo5rl7iSSO/duF5TtRjSTyNA5bCo8H2o=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -18,11 +18,20 @@
     }
   },
   "initialPermissions": {
-    "snap_dialog": {},
-    "endowment:rpc": {
-      "dapps": true,
-      "snaps": false
-    }
+    "endowment:network-access": {},
+    "endowment:ethereum-provider": {},
+    "endowment:cronjob": {
+      "jobs": [
+        {
+          "expression": "* * * * *",
+          "request": {
+            "method": "loop"
+          }
+        }
+      ]
+    },
+    "snap_manageState": {},
+    "snap_dialog": {}
   },
   "manifestVersion": "0.1"
 }
