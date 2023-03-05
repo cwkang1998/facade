@@ -19,7 +19,8 @@ import {
 } from 'wagmi/chains';
 import { infuraProvider } from 'wagmi/providers/infura';
 import { publicProvider } from 'wagmi/providers/public';
-import { Nav } from './components/Navbar';
+import { Base } from './Base';
+import { CardViewProvider } from './hooks/CardViewContext';
 
 const { chains, provider } = configureChains(
   [
@@ -57,7 +58,9 @@ const InnerApp = () => {
         chains={chains}
         theme={colorMode === 'light' ? lightTheme() : darkTheme()}
       >
-        <Nav />
+        <CardViewProvider>
+          <Base />
+        </CardViewProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );

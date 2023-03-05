@@ -1,8 +1,6 @@
-import { ReactNode } from 'react';
 import {
   Box,
   Flex,
-  Link,
   Button,
   useDisclosure,
   useColorModeValue,
@@ -12,22 +10,7 @@ import {
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={'#'}
-  >
-    {children}
-  </Link>
-);
-
-export const Nav = () => {
+export const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
@@ -38,7 +21,7 @@ export const Nav = () => {
 
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
-             <ConnectButton />
+             {/* <ConnectButton /> */}
               
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
