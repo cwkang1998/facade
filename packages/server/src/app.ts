@@ -21,7 +21,24 @@ const wallet = new Wallet(privateKey, provider);
 
 const zkWalletInterface = new ethers.utils.Interface(zkWalletAbi);
 
+const getWalletByNetwork = (network: 'goerli' | 'scroll' | 'polygonZkEvm') => {
+  let provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+  if (network === 'scroll') {
+    provider = new ethers.providers.JsonRpcProvider(
+      'https://alpha-rpc.scroll.io/l2',
+      { chainId: 534353, name: 'Scroll' },
+    );
+  } else if (network === 'polygonZkEvm') {
+    provider = new ethers.providers.JsonRpcProvider(
+      'https://rpc.public.zkevm-test.net',
+      { chainId: 1442, name: 'PolygonZkEvm' },
+    );
+  }
+  return new Wallet(privateKey, provider);
+};
+
 const sendExecute = async (
+  executorWallet: ethers.Wallet,
   zkWalletAddr: string,
   proofs: Proof[],
   functionInputData: string,
@@ -46,7 +63,7 @@ const sendExecute = async (
     functionInputData,
   ]);
 
-  const tx = await wallet.sendTransaction({
+  const tx = await executorWallet.sendTransaction({
     to: zkWalletAddr,
     data: inputData,
   });
@@ -159,9 +176,14 @@ const bytecode =
 
 app.post('/create', async (req: Request, res: Response) => {
   console.log(req.body);
-  const { threshold, ownerHashes } = req.body;
+  const { threshold, ownerHashes, network } = req.body;
+  const networkWallet = getWalletByNetwork(network);
 
-  const factory = new ethers.ContractFactory(zkWalletAbi, bytecode, wallet);
+  const factory = new ethers.ContractFactory(
+    zkWalletAbi,
+    bytecode,
+    networkWallet,
+  );
   const contract = await factory.deploy(threshold, ownerHashes);
   const receipt = await contract.deployTransaction.wait();
 
@@ -176,7 +198,7 @@ app.post('/relay', async (req: Request, res: Response) => {
   const { proofs } = data;
   const inputData = zkWalletInterface.encodeFunctionData('nonce');
 
-  const tx = await sendExecute(walletAddress, proofs, inputData);
+  const tx = await sendExecute(wallet, walletAddress, proofs, inputData);
 
   return res.status(200).json(tx);
 });

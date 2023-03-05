@@ -26,13 +26,19 @@ module.exports = {
       port: 8545, // Standard Ethereum port (default: none)
       network_id: '*', // Any network (default: none)
     },
-    //
-    // An additional network, but with some advanced options…
+    // Goerli
     goerli: {
       network_id: 5,
       provider: () => new HDWalletProvider(privateKey, "https://goerli.infura.io/v3/bd257f52f1334580bf8738ca575bedbc")
+    },
+    scroll: {
+      network_id: 534353,
+      provider: () => new HDWalletProvider(privateKey, "https://alpha-rpc.scroll.io/l2")
+    },
+    polygonZkEvm: {
+      network_id: 1442,
+      provider: () => new HDWalletProvider(privateKey, "https://rpc.public.zkevm-test.net")
     }
-    //
   },
 
   // Set default mocha options here, use special reporters, etc.
