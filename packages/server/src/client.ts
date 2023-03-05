@@ -1,10 +1,10 @@
-import { Client } from "pg";
+import { Client } from 'pg';
 
 export const getClient = async () => {
   const client = new Client({
-    user: "docker",
-    password: "docker",
-    database: "eth-denver",
+    user: 'docker',
+    password: 'docker',
+    database: 'eth-denver',
     port: 5432,
   });
 
@@ -12,5 +12,5 @@ export const getClient = async () => {
 };
 
 export const getTestQuery = () => {
-  return "SELECT 5";
+  return 'SELECT 5';
 };

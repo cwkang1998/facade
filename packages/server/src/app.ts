@@ -1,15 +1,17 @@
-import bodyParser from "body-parser";
-import express, { Application, Request, Response } from "express";
-import format from "pg-format";
-import { getClient, getTestQuery } from "./client";
-import zkWalletAbi from "./abi/zkWalletAbi.json";
-import { Contract, ethers, Wallet } from "ethers";
+import bodyParser from 'body-parser';
+import express, { Application, Request, Response } from 'express';
+import format from 'pg-format';
+import { Contract, ethers, Wallet } from 'ethers';
+import { getClient, getTestQuery } from './client';
+import zkWalletAbi from './abi/zkWalletAbi.json';
 
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 
 dotenv.config();
+
 const privateKey = process.env.PRIVATE_KEY!;
 const infuraKey = process.env.INFURA_KEY!;
+
 const rpcUrl = `https://goerli.infura.io/v3/${infuraKey}`;
 const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
 const wallet = new Wallet(privateKey, provider);
@@ -17,7 +19,7 @@ const wallet = new Wallet(privateKey, provider);
 const zkWalletInterface = new ethers.utils.Interface(zkWalletAbi);
 
 const sendExecute = async (zkWalletAddr: string, proofs: string[]) => {
-  const inputData = zkWalletInterface.encodeFunctionData("execute", [proofs]);
+  const inputData = zkWalletInterface.encodeFunctionData('execute', [proofs]);
   const tx = await wallet.sendTransaction({
     to: zkWalletAddr,
     data: inputData,
@@ -29,7 +31,7 @@ const app: Application = express();
 app.use(bodyParser.json());
 const PORT: number = 3001;
 
-app.get("/", async (req: Request, res: Response): Promise<void> => {
+app.get('/', async (req: Request, res: Response): Promise<void> => {
   const client = await getClient();
   await client.connect();
   const res1 = await client.query(getTestQuery());
@@ -41,7 +43,7 @@ app.get("/", async (req: Request, res: Response): Promise<void> => {
   });
 });
 
-app.get("/address/:address", async (req: Request, res: Response) => {
+app.get('/address/:address', async (req: Request, res: Response) => {
   const address = req.params.address;
   const nonce = req.query.nonce;
   if (nonce === null || nonce === undefined) {
@@ -58,8 +60,8 @@ app.get("/address/:address", async (req: Request, res: Response) => {
               where target_wallet = %L
               and wallet_nonce = %L`,
       address,
-      nonce
-    )
+      nonce,
+    ),
   );
   await client.end();
   console.log(`queryRes: ${JSON.stringify(queryRes)}`);
@@ -84,7 +86,7 @@ app.get("/address/:address", async (req: Request, res: Response) => {
   return;
 });
 
-app.post("/", async (req: Request, res: Response): Promise<void> => {
+app.post('/', async (req: Request, res: Response): Promise<void> => {
   const data = req.body;
   const targetWallet = data.zkWallet;
   const proof = data.proof;
@@ -99,8 +101,8 @@ app.post("/", async (req: Request, res: Response): Promise<void> => {
           (target_wallet, proof, wallet_nonce)
           VALUES (%L);
       `,
-      [targetWallet, proof, walletNonce]
-    )
+      [targetWallet, proof, walletNonce],
+    ),
   );
 
   await client.end();
@@ -108,13 +110,13 @@ app.post("/", async (req: Request, res: Response): Promise<void> => {
   return;
 });
 
-app.delete("/id/:id", async (req: Request, res: Response) => {
+app.delete('/id/:id', async (req: Request, res: Response) => {
   const id = req.params.id;
   const client = await getClient();
   await client.connect();
 
   await client.query(
-    format(`delete from main.proof_storage where id = %L`, [id])
+    format(`delete from main.proof_storage where id = %L`, [id]),
   );
 
   await client.end();
@@ -122,7 +124,7 @@ app.delete("/id/:id", async (req: Request, res: Response) => {
   return;
 });
 
-app.post("/relay", async (req: Request, res: Response): Promise<void> => {
+app.post('/relay', async (req: Request, res: Response): Promise<void> => {
   const data = req.body;
 
   const walletAddress = data.walletAddress;
@@ -136,5 +138,5 @@ app.post("/relay", async (req: Request, res: Response): Promise<void> => {
 });
 
 app.listen(PORT, (): void => {
-  console.log("SERVER IS UP ON PORT:", PORT);
+  console.log('SERVER IS UP ON PORT:', PORT);
 });

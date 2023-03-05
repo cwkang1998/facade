@@ -15031,24 +15031,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-denver-zk-wallet-server@workspace:packages/server":
-  version: 0.0.0-use.local
-  resolution: "eth-denver-zk-wallet-server@workspace:packages/server"
-  dependencies:
-    "@types/express": ^4.17.17
-    "@types/node": ^18.14.6
-    "@types/pg": ^8.6.6
-    "@types/pg-format": ^1.0.2
-    body-parser: ^1.20.2
-    dotenv: ^16.0.3
-    ethers: ^5.0.0
-    express: ^4.18.2
-    pg: ^8.9.0
-    pg-format: ^1.0.4
-    typescript: ^4.9.5
-  languageName: unknown
-  linkType: soft
-
 "eth-ens-namehash@npm:2.0.8":
   version: 2.0.8
   resolution: "eth-ens-namehash@npm:2.0.8"
@@ -30841,6 +30823,25 @@ __metadata:
   checksum: e1e60a859b21af5897501b3e12ff2c811b39f7b376e32ee8de0056bcfe7e64609c08dc265e33d7b6c20f81d07f987eb1be1dad8780473461a437828828995a79
   languageName: node
   linkType: hard
+
+"zk-wallet-server@workspace:packages/server":
+  version: 0.0.0-use.local
+  resolution: "zk-wallet-server@workspace:packages/server"
+  dependencies:
+    "@types/express": ^4.17.17
+    "@types/node": ^18.14.6
+    "@types/pg": ^8.6.6
+    "@types/pg-format": ^1.0.2
+    body-parser: ^1.20.2
+    dotenv: ^16.0.3
+    ethers: ^5.7.2
+    express: ^4.18.2
+    pg: ^8.9.0
+    pg-format: ^1.0.4
+    ts-node: ^10.9.1
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
 
 "zustand@npm:^4.3.1":
   version: 4.3.5
