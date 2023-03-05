@@ -78,7 +78,7 @@ export const Initial = () => {
             <Box padding="3" marginTop="auto" marginBottom="auto">
               <Button
                 onClick={handleAddWalletClick}
-              >Register Wallet</Button>
+              >Add Wallet to Snap</Button>
             </Box>
           </Flex>
         </VStack>

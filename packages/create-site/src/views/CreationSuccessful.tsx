@@ -1,8 +1,45 @@
-import { Card, CardBody, Box, Text, CardFooter } from '@chakra-ui/react';
+import {
+  Card,
+  CardBody,
+  Box,
+  Text,
+  CardFooter,
+  Button,
+  Flex,
+} from '@chakra-ui/react';
 import { CheckCircleIcon } from '@chakra-ui/icons';
 import { AddSnapButton } from '../components/AddSnapButton';
+import { useContext } from 'react';
+import { MetamaskActions, MetaMaskContext } from '../hooks';
+import { addWallet, connectSnap, getSnap } from '../utils';
 
 export const CreationSuccessful = () => {
+  const [state, dispatch] = useContext(MetaMaskContext);
+
+  const handleConnectClick = async () => {
+    try {
+      await connectSnap();
+      const installedSnap = await getSnap();
+
+      dispatch({
+        type: MetamaskActions.SetInstalled,
+        payload: installedSnap,
+      });
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+  };
+
+  const handleAddWalletClick = async () => {
+    try {
+      await addWallet();
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+  };
+
   return (
     <Card>
       <CardBody>
@@ -17,9 +54,14 @@ export const CreationSuccessful = () => {
         </Box>
       </CardBody>
       <CardFooter>
-        <Box marginRight="auto" marginLeft="auto">
-          <AddSnapButton onConnectClick={() => {}} state={{ isFlask: true }} />
-        </Box>
+        <Flex marginRight="auto" marginLeft="auto">
+          <Box padding="3" marginTop="auto" marginBottom="auto">
+            <AddSnapButton onConnectClick={handleConnectClick} state={state} />
+          </Box>
+          <Box padding="3" marginTop="auto" marginBottom="auto">
+            <Button onClick={handleAddWalletClick}>Add Wallet to Snap</Button>
+          </Box>
+        </Flex>
       </CardFooter>
     </Card>
   );
