@@ -2,8 +2,8 @@ import bodyParser from "body-parser";
 import express, { Application, Request, Response } from "express";
 import format from "pg-format";
 import { getClient, getTestQuery } from "./client";
-import abiJson from "./abi/zkWalletAbi.json";
-import { Contract, InfuraProvider, JsonRpcProvider, Wallet } from "ethers";
+import zkWalletAbi from "./abi/zkWalletAbi.json";
+import { Contract, ethers, Wallet } from "ethers";
 
 import * as dotenv from "dotenv";
 
@@ -11,8 +11,19 @@ dotenv.config();
 const privateKey = process.env.PRIVATE_KEY!;
 const infuraKey = process.env.INFURA_KEY!;
 const rpcUrl = `https://goerli.infura.io/v3/${infuraKey}`;
-const provider = new JsonRpcProvider(rpcUrl);
+const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
 const wallet = new Wallet(privateKey, provider);
+
+const zkWalletInterface = new ethers.utils.Interface(zkWalletAbi);
+
+const sendExecute = async (zkWalletAddr: string, proofs: string[]) => {
+  const inputData = zkWalletInterface.encodeFunctionData("execute", [proofs]);
+  const tx = await wallet.sendTransaction({
+    to: zkWalletAddr,
+    data: inputData,
+  });
+  return tx;
+};
 
 const app: Application = express();
 app.use(bodyParser.json());
@@ -118,9 +129,7 @@ app.post("/relay", async (req: Request, res: Response): Promise<void> => {
   const proofs: string[] = data.proofs;
   const network = data.network;
 
-  const zkWalletContract = new Contract(walletAddress, abiJson, wallet);
-  const someInput = "";
-  const tx = await zkWalletContract.execute(someInput);
+  const tx = await sendExecute(walletAddress, proofs);
 
   res.status(200);
   res.json(tx);
