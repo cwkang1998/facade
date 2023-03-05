@@ -21,6 +21,7 @@ import { infuraProvider } from 'wagmi/providers/infura';
 import { publicProvider } from 'wagmi/providers/public';
 import { Base } from './Base';
 import { CardViewProvider } from './hooks/CardViewContext';
+import theme from './theme';
 
 const { chains, provider } = configureChains(
   [
@@ -68,7 +69,7 @@ const InnerApp = () => {
 
 const App = () => {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <InnerApp />
     </ChakraProvider>
   );
