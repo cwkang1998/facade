@@ -6,7 +6,7 @@ import {
   useContext,
 } from 'react';
 
-enum CardViewState {
+export enum CardViewState {
   INITIAL,
   CREATING,
   CREATE_SUCCESS,

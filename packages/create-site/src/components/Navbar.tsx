@@ -6,6 +6,8 @@ import {
   useColorModeValue,
   Stack,
   useColorMode,
+  Heading,
+  Text,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -16,17 +18,18 @@ export const Navbar = () => {
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <Box>Facade</Box>
+        <Flex h={20} alignItems={'center'} justifyContent={'space-between'}>
+          <Box>
+            <Text fontSize='2xl'>Facade</Text>
+          </Box> 
 
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
-             {/* <ConnectButton /> */}
-              
+              {/* <ConnectButton /> */}
+
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
-
             </Stack>
           </Flex>
         </Flex>

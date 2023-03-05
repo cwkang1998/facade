@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
 import { MetamaskState } from '../hooks';
 import { ReactComponent as FlaskFox } from '../assets/flask_fox.svg';
-import { Button, Link, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Link, Text } from '@chakra-ui/react';
 import { shouldDisplayReconnectButton } from '../utils';
 
 export const InstallFlaskButton = () => (
@@ -14,7 +14,9 @@ export const InstallFlaskButton = () => (
 export const ConnectButton = (props: ComponentProps<typeof Button>) => {
   return (
     <Button {...props}>
-      <FlaskFox />
+      <Box marginRight="1">
+        <FlaskFox />
+      </Box>
       <Text> Connect</Text>
     </Button>
   );
@@ -23,7 +25,9 @@ export const ConnectButton = (props: ComponentProps<typeof Button>) => {
 export const ReconnectButton = (props: ComponentProps<typeof Button>) => {
   return (
     <Button {...props}>
-      <FlaskFox />
+      <Box marginRight="1">
+        <FlaskFox />
+      </Box>
       <Text>Reconnect</Text>
     </Button>
   );
@@ -32,7 +36,9 @@ export const ReconnectButton = (props: ComponentProps<typeof Button>) => {
 export const ConnectedButton = (props: ComponentProps<typeof Button>) => {
   return (
     <Button {...props} disabled>
-      <FlaskFox />
+      <Box marginRight="1">
+        <FlaskFox />
+      </Box>
       <Text>Connected</Text>
     </Button>
   );
