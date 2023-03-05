@@ -5,7 +5,6 @@ import {
   VStack,
   Divider,
   Box,
-  HStack,
   Text,
   Flex,
   Button,
@@ -18,7 +17,7 @@ import { CardViewState, useCardViewContext } from '../hooks/CardViewContext';
 import { addWallet, connectSnap, getSnap } from '../utils';
 
 export const Initial = () => {
-  const [currentView, setCurrentView] = useCardViewContext();
+  const {setView} = useCardViewContext();
   const [state, dispatch] = useContext(MetaMaskContext);
 
   const handleConnectClick = async () => {
@@ -55,7 +54,7 @@ export const Initial = () => {
               <Text>Create a new wallet that's secure by default.</Text>
             </Box>
             <Box padding="3" marginTop="auto" marginBottom="auto">
-              <Button onClick={() => setCurrentView(CardViewState.CREATING)}>
+              <Button onClick={() => setView(CardViewState.CREATING)}>
                 + Create new
               </Button>
             </Box>

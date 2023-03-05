@@ -1,7 +1,4 @@
-import {
-  Container,
-  Flex,
-} from '@chakra-ui/react';
+import { Container, Flex } from '@chakra-ui/react';
 import { Navbar } from './components/Navbar';
 import { useCardViewContext } from './hooks/CardViewContext';
 import { CreationProcess } from './views/CreationProcess';
@@ -15,7 +12,7 @@ enum CardViewState {
 }
 
 export const Base = () => {
-  const [currentView] = useCardViewContext();
+  const { currentView } = useCardViewContext();
 
   let CurrentViewComponent = Initial;
   if (currentView === CardViewState.CREATING) {
@@ -28,7 +25,7 @@ export const Base = () => {
     <Flex height="100vh" direction="column">
       <Navbar />
       <Flex direction="column" margin="auto">
-          <CurrentViewComponent />
+        <CurrentViewComponent />
       </Flex>
     </Flex>
   );

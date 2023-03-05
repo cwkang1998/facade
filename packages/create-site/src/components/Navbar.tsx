@@ -13,7 +13,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { CardViewState, useCardViewContext } from '../hooks/CardViewContext';
 
 export const Navbar = () => {
-  const [currentView, setCurrentView] = useCardViewContext();
+  const {setView} = useCardViewContext();
   const { colorMode, toggleColorMode } = useColorMode();
   return (
     <>
@@ -21,7 +21,7 @@ export const Navbar = () => {
         <Flex h={20} alignItems={'center'} justifyContent={'space-between'}>
           <Box>
             <Text fontSize="2xl">
-              <Link onClick={() => setCurrentView(CardViewState.INITIAL)} _hover={{}}>
+              <Link onClick={() => setView(CardViewState.INITIAL)} _hover={{}}>
                 Facade
               </Link>
             </Text>

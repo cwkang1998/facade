@@ -12,8 +12,10 @@ import { AddSnapButton } from '../components/AddSnapButton';
 import { useContext } from 'react';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import { addWallet, connectSnap, getSnap } from '../utils';
+import { useCardViewContext } from '../hooks/CardViewContext';
 
 export const CreationSuccessful = () => {
+  const { data } = useCardViewContext();
   const [state, dispatch] = useContext(MetaMaskContext);
 
   const handleConnectClick = async () => {
@@ -47,6 +49,12 @@ export const CreationSuccessful = () => {
           <CheckCircleIcon boxSize={'50px'} color={'green.500'} />
           <Text fontSize="4xl" mt={6} mb={2}>
             Successfully created your Facade wallet!
+          </Text>
+          <Text fontSize="xl" mt={2}>
+            Your wallet address is deployed at:
+          </Text>
+          <Text fontSize="xl" mb={4}>
+            <u>{data.walletAddress}</u>
           </Text>
           <Text color={'gray.500'}>
             Start using your Facade wallet by adding the snap to Metamask Flask.

@@ -11,7 +11,6 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
-  Heading,
   Input,
   Link,
   ListItem,
@@ -143,7 +142,7 @@ const ReviewForm = ({ fieldState }: { fieldState: WalletCreationDetail }) => {
 };
 
 export const CreationProcess = () => {
-  const [currentView, setCurrentView] = useCardViewContext();
+  const {setView} = useCardViewContext();
   const [currentStep, setCurrentStep] = useState<CreationStep>(
     CreationStep.NETWORK_SELECT,
   );
@@ -159,7 +158,7 @@ export const CreationProcess = () => {
   const handleBack = () => {
     if (currentStep === CreationStep.NETWORK_SELECT) {
       setProgress(0);
-      setCurrentView(CardViewState.INITIAL);
+      setView(CardViewState.INITIAL);
     } else if (currentStep === CreationStep.OWNER_DETAILS) {
       setProgress(33);
       setCurrentStep(CreationStep.NETWORK_SELECT);
@@ -198,7 +197,8 @@ export const CreationProcess = () => {
       setIsCreationLoading(true);
       // Should call creation here;
       setIsCreationLoading(false);
-      setCurrentView(CardViewState.CREATE_SUCCESS);
+      // Arbritrary contract here
+      setView(CardViewState.CREATE_SUCCESS, {walletAddress: "0x0DA0C3e52C977Ed3cBc641fF02DD271c3ED55ade"});
     }
   };
 
