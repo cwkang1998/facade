@@ -3,7 +3,8 @@ dist/
 build/
 coverage/
 .cache/
-public/
+
+packages/site/public/
 
 # Logs
 logs

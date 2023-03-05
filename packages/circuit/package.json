@@ -13,7 +13,7 @@
     "@personaelabs/spartan-ecdsa": "^1.0.2",
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.7",
-    "ethers": "^6.0.8",
+    "ethers": "^5.7.2",
     "snarkjs": "^0.6.7"
   },
   "devDependencies": {
