@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "./Verifier.sol";
+import './Verifier.sol';
 
 contract ZkMultisigWallet is Verifier {
-
-  uint public nonce;            
+  uint public nonce;
   uint public threshold;
   mapping(uint => bool) private ownerHashes;
 
@@ -21,11 +20,13 @@ contract ZkMultisigWallet is Verifier {
 
   // Note that address recovered from signatures must be strictly increasing, in order to prevent duplicates
   function execute(
-        uint[2][] calldata a,
-        uint[2][2][] calldata b,
-        uint[2][] calldata c,
-        uint[6][] calldata input
-    ) external {
+    uint[2][] calldata a,
+    uint[2][2][] calldata b,
+    uint[2][] calldata c,
+    uint[6][] calldata input,
+    address destination,
+    bytes[] memory functionInputData
+  ) external {
     require(input.length >= threshold);
     require(a.length == b.length && b.length == c.length);
 
@@ -35,22 +36,25 @@ contract ZkMultisigWallet is Verifier {
      * 4 hashPubKey
      * 5 Arbritrary output 1
      */
-    uint lastAdd = 0; 
+    uint lastAdd = 0;
     for (uint i = 0; i < threshold; i++) {
       require(ownerHashes[input[i][4]]);
       require(input[i][4] > lastAdd);
 
       bool isValid = this.verifyProof(a[i], b[i], c[i], input[i]);
       lastAdd = input[i][4];
-      
+
       require(isValid);
     }
 
     bool success = false;
-    address destination = address(uint160(uint(keccak256(abi.encodePacked(input[0][0])))));
+    require(uint256(keccak256(abi.encode(destination))) == input[0][0]);
     nonce = nonce + 1;
+    functionInputData;
 
-    (success,) = destination.call{value: input[0][1], gas: input[0][2]}(abi.encodePacked(input[0][3]));
+    (success, ) = destination.call{value: input[0][1], gas: input[0][2]}(
+      abi.encodePacked(input[0][3])
+    );
     require(success);
   }
 
