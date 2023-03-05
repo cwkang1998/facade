@@ -61,4 +61,12 @@ export const sendHello = async () => {
   });
 };
 
+export const addWallet = async () => {
+  debugger;
+  await (window.ethereum as any).request({
+    method: 'wallet_invokeSnap',
+    params: { snapId: defaultSnapOrigin, request: { method: 'registerWallet' } },
+  });
+};
+
 export const isLocalSnap = (snapId: string) => snapId.startsWith('local:');
