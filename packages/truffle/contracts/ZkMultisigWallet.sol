@@ -25,7 +25,7 @@ contract ZkMultisigWallet is Verifier {
     uint[2][] calldata c,
     uint[6][] calldata input,
     address destination,
-    bytes[] memory functionInputData
+    bytes memory functionInputData
   ) external {
     require(input.length >= threshold);
     require(a.length == b.length && b.length == c.length);
