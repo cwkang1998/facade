@@ -59,6 +59,9 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "ethers": "^5.0.0"
+    "@noble/secp256k1": "^1.7.1",
+    "circomlibjs": "^0.1.7",
+    "ethers": "^5.0.0",
+    "snarkjs": "^0.6.7"
   }
 }

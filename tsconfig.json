@@ -9,7 +9,7 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "strict": true,
-    "target": "ES2017"
+    "target": "ESNext"
   },
   "exclude": ["**/__snapshots__/**", "**/test/**", "**/*.test.ts"]
 }

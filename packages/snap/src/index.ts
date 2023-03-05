@@ -1,6 +1,7 @@
 import { OnRpcRequestHandler, OnCronjobHandler } from '@metamask/snaps-types';
 import { heading, panel, text } from '@metamask/snaps-ui';
 import { BigNumber, ethers } from 'ethers';
+import { bigintToArray, buildSolidityProof } from './utils';
 import zkWalletAbi from './abi.json';
 
 /**
