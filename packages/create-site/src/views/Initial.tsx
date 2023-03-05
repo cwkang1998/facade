@@ -13,7 +13,6 @@ import {
 } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { AddSnapButton } from '../components/AddSnapButton';
-import { AddWalletButton } from '../components/AddWalletButton';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import { CardViewState, useCardViewContext } from '../hooks/CardViewContext';
 import { addWallet, connectSnap, getSnap } from '../utils';
@@ -77,10 +76,9 @@ export const Initial = () => {
               />
             </Box>
             <Box padding="3" marginTop="auto" marginBottom="auto">
-              <AddWalletButton
-                onConnectClick={handleAddWalletClick}
-                disabled={!state.installedSnap}
-              />
+              <Button
+                onClick={handleAddWalletClick}
+              >Register Wallet</Button>
             </Box>
           </Flex>
         </VStack>

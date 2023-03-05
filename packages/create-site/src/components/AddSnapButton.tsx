@@ -65,5 +65,5 @@ export const AddSnapButton = ({
     return <ReconnectButton onClick={onConnectClick} />;
   }
 
-  return <ConnectedButton />;
+  return <ConnectedButton disabled />;
 };

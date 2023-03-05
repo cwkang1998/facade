@@ -7,6 +7,7 @@
     "moduleResolution": "node",
     "useUnknownInCatchVariables": false,
     "sourceMap": true,
+    "resolveJsonModule": true,
     "strict": true,
     "target": "ES2017"
   },

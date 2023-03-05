@@ -1,6 +1,5 @@
-import { OnRpcRequestHandler } from '@metamask/snaps-types';
+import { OnRpcRequestHandler, OnCronjobHandler } from '@metamask/snaps-types';
 import { heading, panel, text } from '@metamask/snaps-ui';
-import { OnCronjobHandler } from '@metamask/snaps-types';
 import { BigNumber, ethers } from 'ethers';
 import zkWalletAbi from './abi.json';
 
@@ -38,53 +37,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
 }) => {
   switch (request.method) {
-    case 'hello': {
-      // const response = await fetch('http://localhost:3001');
-      // const data = await response.json();
-      // console.log('before response');
-      // console.log(data);
-      // console.log(JSON.stringify(data));
-
-      // const zkWallet = 'a';
-      // const nonce = 1;
-      // console.log('test abc');
-      // const proofRes = await fetch(
-      //   `http://localhost:3001/address/${zkWallet}?nonce=${nonce}`,
-      // );
-
-      // const proofJson = await proofRes.json();
-      // const proofs = proofJson.map((x: { proof: any }) => {
-      //   return x.proof;
-      // });
-      // console.log(`proofs: ${proofs}`);
-
-      // const balance = await ethereum.request({
-      //   method: 'eth_getBalance',
-      //   params: ['0x7730Edfb83212BABe9396064d765a3d5afEc671a', 'latest'],
-      // });
-
-      // console.log(`balance: ${balance}`);
-
-      // const xx = new ethers.utils.Interface(ABI);
-      // const inputData = zkWalletInterface.encodeFunctionData('nonce');
-
-      // const zkWallet = '0xf73a8edb06521c864abff9c5cf296a9e04ebdef5';
-      // const callParam = {
-      //   to: zkWallet,
-      //   data: inputData,
-      // };
-
-      // const nonceHex = await ethereum.request({
-      //   method: 'eth_call',
-      //   params: [callParam],
-      // });
-
-      // const nonce = BigNumber.from(nonceHex);
-
-      // console.log(`nonce: ${nonce}`);
-      return;
-    }
-
     case 'registerWallet': {
       const account = await ethereum.request({ method: 'eth_requestAccounts' });
       const walletAddress = (await snap.request({
